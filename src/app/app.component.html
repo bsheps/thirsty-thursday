@@ -1,0 +1,54 @@
+<!--BEGIN: user input / search area -->
+<div class="user-controls-container">
+  <h1 id="title">Thirsty Thursday Cocktail Search</h1>
+  <img src="../assets/cocktail1-transparent.png" alt="Picture of a cocktail">
+  <div class="user-input">
+    <mat-form-field appearance="outline" class="search-option-select">
+      <mat-select [(value)]="searchBy">
+        <mat-option *ngFor="let option of searchOptions" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Search</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" [formControl]="searchInput" (keyup)="search()" autofocus>
+    </mat-form-field>
+  </div>
+  <div class="user-buttons">
+    <button mat-raised-button color="primary" (click)="search()">Cocktail Search</button>
+    <button mat-raised-button color="primary" (click)="randomCocktail()">
+      <mat-icon>liquor</mat-icon>Pick for me
+    </button>
+  </div>
+</div>
+<!--END: user input / search area -->
+
+<!--BEGIN: drink results display -->
+<div *ngIf="cocktails?.drinks?.length > 0" fxLayout="row wrap" fxLayoutAlign="center">
+  <mat-card *ngFor="let drink of cocktails?.drinks">
+    <mat-card-header>
+      <div mat-card-avatar style="background-image: url('{{drink?.strDrinkThumb}}');
+        background-size: cover;"></div>
+      <mat-card-title>{{drink?.strDrink}}</mat-card-title>
+      <mat-card-subtitle>{{drink?.strCategory}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="{{drink?.strDrinkThumb}}" alt="Picture of {{drink?.strDrink}}">
+    <mat-card-content>
+      <ul>
+        <li *ngIf="drink?.strIngredient1">{{drink?.strIngredient1}} {{drink?.strMeasure1}}</li>
+        <li *ngIf="drink?.strIngredient2">{{drink?.strIngredient2}} {{drink?.strMeasure2}}</li>
+        <li *ngIf="drink?.strIngredient3">{{drink?.strIngredient3}} {{drink?.strMeasure3}}</li>
+        <li *ngIf="drink?.strIngredient4">...</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="openDialog(drink)">See details</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<div *ngIf="cocktails?.drinks === null && searchInput.value !=''">
+  <h3>No results found for <i>"{{searchInput.value}}"</i>.</h3>
+</div>
+<!--END: drink results display -->

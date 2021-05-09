@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>{{data.strDrink}}</h1>
+<div mat-dialog-content fxLayout="row">
+    <div>
+        <img src="{{data?.strDrinkThumb}}" alt="Pic of {{data?.strDrink}}" width="300" height="300">
+    </div>
+    <div style="margin-left: 10px">
+        <b>Category:</b>
+        <p>{{data?.strCategory}}</p>
+        <b>Ingredients:</b>
+        <ul>
+            <li *ngIf="data?.strIngredient1">{{data?.strIngredient1}} {{data?.strMeasure1}}</li>
+            <li *ngIf="data?.strIngredient2">{{data?.strIngredient2}} {{data?.strMeasure2}}</li>
+            <li *ngIf="data?.strIngredient3">{{data?.strIngredient3}} {{data?.strMeasure3}}</li>
+            <li *ngIf="data?.strIngredient4">{{data?.strIngredient4}} {{data?.strMeasure4}}</li>
+            <li *ngIf="data?.strIngredient5">{{data?.strIngredient5}} {{data?.strMeasure5}}</li>
+            <li *ngIf="data?.strIngredient6">{{data?.strIngredient6}} {{data?.strMeasure6}}</li>
+            <li *ngIf="data?.strIngredient7">{{data?.strIngredient7}} {{data?.strMeasure7}}</li>
+            <li *ngIf="data?.strIngredient8">{{data?.strIngredient8}} {{data?.strMeasure8}}</li>
+            <li *ngIf="data?.strIngredient9">{{data?.strIngredient9}} {{data?.strMeasure9}}</li>
+            <li *ngIf="data?.strIngredient10">{{data?.strIngredient10}} {{data?.strMeasure10}}</li>
+            <li *ngIf="data?.strIngredient11">{{data?.strIngredient11}} {{data?.strMeasure11}}</li>
+            <li *ngIf="data?.strIngredient12">{{data?.strIngredient12}} {{data?.strMeasure12}}</li>
+            <li *ngIf="data?.strIngredient13">{{data?.strIngredient13}} {{data?.strMeasure13}}</li>
+            <li *ngIf="data?.strIngredient14">{{data?.strIngredient14}} {{data?.strMeasure14}}</li>
+            <li *ngIf="data?.strIngredient15">{{data?.strIngredient15}} {{data?.strMeasure15}}</li>
+        </ul>
+        <b>Glass:</b>
+        <p>{{data?.strGlass}}</p>
+        <b>Instructions:</b>
+        <p>{{data?.strInstructions}}</p>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="accent" (click)="dialogRef.close()">Close</button>
+</div>
