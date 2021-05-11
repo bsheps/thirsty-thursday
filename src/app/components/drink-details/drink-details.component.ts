@@ -9,6 +9,5 @@ import { DrinkDetailsI } from 'src/app/interfaces/drinks';
 })
 export class DrinkDetailsComponent {
 
-  constructor(public dialogRef: MatDialogRef<DrinkDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DrinkDetailsI) { }
+  constructor(public dialogRef: MatDialogRef<DrinkDetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: DrinkDetailsI) { }
 }

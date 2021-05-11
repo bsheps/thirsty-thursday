@@ -1,7 +1,7 @@
 import { OverlayContainer } from '@angular/cdk/overlay/';
 import { Component, DebugElement, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DrinkDetailsComponent } from './drink-details.component';
 
@@ -9,8 +9,6 @@ describe('DrinkDetailsComponent', () => {
   let dialog: MatDialog;
   let overlayContainerElement: HTMLElement;
   let noop: ComponentFixture<DummyComponent>;
-
-  let de: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

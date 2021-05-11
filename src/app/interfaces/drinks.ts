@@ -3,14 +3,16 @@ export interface DrinksFullI {
 }
 
 export interface DrinksShortI {
-    drinks: {
-        idDrink: string;
-        strDrink: string;
-        strDrinkThumb: string;
-    }[]
+    drinks: DrinksSummaryI[];
 }
 
-export interface DrinkDetailsI{
+export interface DrinksSummaryI {
+    idDrink: string;
+    strDrink: string;
+    strDrinkThumb: string;
+}
+
+export interface DrinkDetailsI {
     dateModified: string;
     idDrink: string;
     strAlcoholic: string;
@@ -43,8 +45,8 @@ export interface DrinkDetailsI{
     strInstructionsES: string;
     strInstructionsFR: string;
     strInstructionsIT: string;
-    'strInstructionsZH-HANS': string;
-    'strInstructionsZH-HANT': string;
+    strInstructionsZHHANS: string;
+    strInstructionsZHHANT: string;
     strMeasure1: string;
     strMeasure2: string;
     strMeasure3: string;
@@ -63,3 +65,11 @@ export interface DrinkDetailsI{
     strTags: string;
     strVideo: string;
 }
+
+export const byNameAsc = (a: DrinkDetailsI | DrinksSummaryI, b: DrinkDetailsI | DrinksSummaryI): number => {
+    return a.strDrink.localeCompare(b.strDrink);
+};
+
+export const byNameDsc = (a: DrinkDetailsI | DrinksSummaryI, b: DrinkDetailsI | DrinksSummaryI): number => {
+    return b.strDrink.localeCompare(a.strDrink);
+};

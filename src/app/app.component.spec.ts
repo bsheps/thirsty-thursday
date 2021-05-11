@@ -38,16 +38,14 @@ describe('AppComponent', () => {
   });
 
   it(`should have 3 search options`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.searchOptions).toEqual(['Name', 'Ingredient', 'Category']);
   });
 
   it('should default to Name search option', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.searchBy).toEqual('Name');
-  })
+  });
 
   it('should render title and it should be in h1 tag', () => {
     expect(de.query(By.css('h1')).nativeElement.innerText).toBe('Thirsty Thursday Cocktail Search');
@@ -55,7 +53,7 @@ describe('AppComponent', () => {
 
   it('should have input box for searching', () => {
     expect(de.query(By.css('input'))).toBeTruthy();
-  })
+  });
 
   it('should have 2 buttons', () => {
     expect(de.queryAll(By.css('button')).length).toEqual(2);
@@ -64,10 +62,12 @@ describe('AppComponent', () => {
   it('should have a button for search execution and api selection', () => {
     expect(de.queryAll(By.css('button'))[0].nativeElement.innerText).toEqual('Cocktail Search');
   });
+
   it('should have a button for pick for me', () => {
     expect(de.queryAll(By.css('button'))[1].nativeElement.innerText).toContain('Pick for me');
   });
+
   it('should have 1 image', () => {
     expect(de.queryAll(By.css('img')).length).toEqual(1);
-  })
+  });
 });

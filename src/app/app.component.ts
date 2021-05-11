@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DrinkDetailsComponent } from './components/drink-details/drink-details.component';
-import { DrinkDetailsI, DrinksFullI, DrinksShortI } from './interfaces/drinks';
+import { byNameAsc, byNameDsc, DrinkDetailsI, DrinksFullI, DrinksShortI } from './interfaces/drinks';
 import { ApiService } from './services/api.service';
 
 @Component({
@@ -12,13 +12,18 @@ import { ApiService } from './services/api.service';
 })
 export class AppComponent {
   readonly searchOptions = ['Name', 'Ingredient', 'Category'];
+  readonly sortOptions = [
+    { label: 'Name: A to Z', function: byNameAsc },
+    { label: 'Name: Z to A', function: byNameDsc }
+  ];
+  sortBy: { label: string, function: any; };
   searchInput = new FormControl('');
-  searchBy = "Name";
+  searchBy = this.searchOptions[0];
   cocktails: DrinksFullI | null = undefined;
 
   constructor(private api: ApiService, private dialog: MatDialog) { }
 
-  search() {
+  search(): void {
     switch (this.searchBy) {
       case 'Name':
         this.searchByName();
@@ -30,65 +35,52 @@ export class AppComponent {
         this.searchByCategory();
         break;
       default:
-        throw Error("invalid search option: " + this.searchBy);
+        throw Error('invalid search option: ' + this.searchBy);
     }
+    this.sortBy = undefined;
   }
 
-  private searchByCategory() {
+  private searchByCategory(): void {
     this.api.filterByCategory(this.searchInput.value).subscribe(response => {
-      if (response == null || response.drinks.length == 0) {
-        this.cocktails = { drinks: [] };
-      } else {
-        this.cocktails = this.getDrinksFull(response);
-      }
+      this.cocktails = response?.drinks?.length > 0 ? this.getDrinksFull(response) : { drinks: [] };
     });
   }
 
-  private searchByIngredient() {
+  private searchByIngredient(): void {
     this.api.filterByIngredient(this.searchInput.value).subscribe(response => {
-      if (response == null || response.drinks.length == 0) {
-        this.cocktails = { drinks: [] };
-      } else {
-        this.cocktails = this.getDrinksFull(response);
+      this.cocktails = response?.drinks?.length > 0 ? this.getDrinksFull(response) : { drinks: [] };
+    });
+  }
+
+  private searchByName(): void {
+    this.api.searchByName(this.searchInput.value).subscribe(response => {
+      this.cocktails = response?.drinks?.length > 0 ? response : { drinks: [] };
+    });
+  }
+
+  sortDrinks(): void {
+    this.cocktails?.drinks?.sort(this.sortBy.function);
+  }
+
+  randomCocktail(): void {
+    this.api.getRandomCocktail().subscribe(response => {
+      if (response?.drinks?.length === 1) {
+        this.openDialog(response.drinks[0]);
       }
     });
   }
 
-  private searchByName() {
-    this.api.searchByName(this.searchInput.value).subscribe(response => {
-      this.cocktails = response != null ? response : { drinks: [] };
-    });
-  }
-
-  /** let api select 1 cocktail and populate page randomly */
-  randomCocktail() {
-    this.cocktails = {drinks:[]};
-    const numRandomCocktails = 25;
-
-    for(let i = 0; i < numRandomCocktails; ++i){
-      this.api.getRandomCocktail().subscribe(response => {
-        if(response?.drinks?.length == 1){
-          this.cocktails.drinks.push(response.drinks[0]);
-          if(i == 0){ 
-            // show details for first random cocktail while the rest of page loads
-            this.openDialog(response.drinks[0]);
-          }
-        }
-      });
-    }
-  }
-
-  openDialog(drink: DrinkDetailsI) {
+  openDialog(drink: DrinkDetailsI): void {
     this.dialog.open(DrinkDetailsComponent, { data: drink });
   }
 
   private getDrinksFull(shortData: DrinksShortI): DrinksFullI {
-    let cocktails: DrinksFullI = { drinks: [] };
+    const cocktails: DrinksFullI = { drinks: [] };
     shortData.drinks.forEach(drink => {
       this.api.lookupById(drink.idDrink).subscribe(response => {
         cocktails.drinks.push(response.drinks[0]);
-      })
-    })
+      });
+    });
     return cocktails;
   }
 }
